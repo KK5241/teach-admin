@@ -1,101 +1,70 @@
-const {
-    user,
-    role,
-    course
-} = require('../config/dbconfig')
-const {
-    Op
-} = require('sequelize');
-
-user.belongsTo(role, {
-    foreignKey: 'role',
-    as: 'userRole'
-})
-
-exports.getUser = async (req, res) => {
-    const result = await user.findAll({
-        attributes: {
-            exclude: ['loginPwd']
-        },
-        where: {
-            role: {
-                [Op.not]: '303'
-            }
-        },
-        include: [{
-            model: role,
-            as: 'userRole'
-        }]
-    })
-    if (result.length > 0) {
-        res.status(200).send({
-            data: result
-        })
+const {user} = require('../config/dbconfig')
+const jwt = require('jsonwebtoken')
+const secretKey = 'jwtkey123'
+exports.getUser = async (req,res)=>{
+    const token = req.headers.authorization.split(' ')[1]
+    if(token){
+        try {
+            const info = jwt.verify(token,secretKey)
+            const result = await user.findAll({
+                where:{
+                    loginId:info.loginId
+                }
+            })
+            res.send(result)
+        } catch (error) {
+            console.log(error);
+        }
+    }else{
+        res.send('请求失败')
     }
 }
 
-// exports.getMyUser = async (req,res)
-
-exports.deleteUser = async (req, res) => {
-    const {
-        id
-    } = req.query
-    console.log(id);
-    const result1 = await course.destroy({
-        where: {
-            teacherId: id
-        }
-    })
-    const result2 = await user.destroy({
-        where: {
-            Id: id
-        },
-    })
-    res.status(200).send('删除成功')
-}
-
-exports.modifyUser = async (req, res) => {
-    const {
-        loginId
-    } = req.body
-    const result = await user.update({
-
-    })
-}
-
-exports.updateAvatar = async (req, res) => {
-    console.log(req.file);
-    const {
-        id
-    } = req.body
+exports.updateAvatar = async (req,res)=>{
+    const token = req.headers.authorization.split(' ')[1]
     const file = req.file
-    const result = await user.update({
-        avatar: `http://localhost:3000/uploads/${file.filename}`
-    }, {
-        where: {
-            id
+    if(token){
+        try {
+            const info = jwt.verify(token,secretKey)
+            const result = await user.update({
+                avatar:file.filename
+            },
+                {
+                where:{
+                    loginId:info.loginId
+                }
+            })
+            res.send(result)
+        } catch (error) {
+            console.log(error);
         }
-    })
-    if (result.length > 0) {
-        res.status(200).send('更新成功')
+    }else{
+        res.send('请求失败')
     }
 }
-
-exports.modifyUser1 = async (req,res)=>{
-    const {id,name,loginId,role,title,main} = req.body.info
-    console.log(id,name,loginId,role,title,main);
-    const result = await user.update({
-        name,
-        main,
-        title,
-        role,
-        loginId      
-    },{
-        where:{
-            id
+exports.modifyUser = async (req,res)=>{
+    const token = req.headers.authorization.split(' ')[1]
+    const a = req.body.info
+    if(token){
+        try {
+            const info = jwt.verify(token,secretKey)
+            await user.update({
+                name:a.name,
+                sex:a.sex,
+                roleId:a.roleId,
+                age:a.age
+            },
+                {
+                where:{
+                    loginId:info.loginId
+                }
+            })
+            res.send('更新成功')
+        } catch (error) {
+            console.log(error);
         }
-    })
-    if(result.length>0){
-        res.status(200).send('更新成功')
+    }else{
+        res.send('请求失败')
     }
+   
 }

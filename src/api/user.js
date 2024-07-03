@@ -1,11 +1,7 @@
 import { instance } from "./index";
 
-export async function getUser(id){
-    return instance.get('/getUser',{
-        params:{
-            id
-        }
-    })
+export async function getUser(){
+    return instance.get('/getUser')
 }
 
 export async function deleteUser(id){
@@ -16,10 +12,9 @@ export async function deleteUser(id){
     })
 }
 
-export async function updateAvatar(id,file){
-    console.log(id,file);
+export async function updateAvatar(file){
+    console.log(file);
     return instance.post('/updateAvatar',{
-        id,
         file
     },{
         headers:{
@@ -28,9 +23,8 @@ export async function updateAvatar(id,file){
     })
 }
 
-export async function modifyUser1(info){
-    console.log('#',info);
-    return instance.post('/modifyUser1',{
+export async function modifyUser(info){
+    return instance.post('/modifyUser',{
         info
     })
 }

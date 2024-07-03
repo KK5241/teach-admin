@@ -3,30 +3,30 @@
     <div class="login-show">
       <div class="logo">
         <img
-          src="https://xiaoban.hebau.edu.cn/__local/A/F1/C3/C5E6614D598EF966D8B1EB13127_B6BAB821_9D78.gif?e=.gif"
+          src="https://zhengxin-pub.cdn.bcebos.com/mark/4b47d105d2c090b70b7617f2c0c26c7b.jpg"
           alt=""
         />
-        <h1>河北农业大学</h1>
+        <h1>"咱村那些事"</h1>
       </div>
       <div class="login">
         <h1>Login</h1>
         <el-form :inline="true"  class="demo-form-inline">
           <label>
-            <font-awesome-icon :icon="['fas', 'user']" style="color: #ffffff" />
+            <font-awesome-icon :icon="['fas', 'user']" style="color: black" />
             <input type="text" placeholder="请输入账号" v-model="loginData.loginId" />
           </label>
           <br />
           <label>
-            <font-awesome-icon :icon="['fas', 'key']" style="color: #ffffff" />
+            <font-awesome-icon :icon="['fas', 'key']" style="color: black" />
             <input type="password" class="password" placeholder="请输入密码" v-model="loginData.loginPwd" />
           </label>
           <br />
 
           <div class="button">
-            <el-button type="warning" style="width: 100px; margin-right: 17px" @click="handleSubmit"
+            <el-button type="success" style="width: 100px; margin-right: 17px" @click="handleSubmit"
               >登陆</el-button
             >
-            <el-button type="warning" style="width: 100px; margin-left: 17px" @click="handleRegister"
+            <el-button type="success" style="width: 100px; margin-left: 17px" @click="handleRegister"
               >注册</el-button
             >
           </div>
@@ -55,7 +55,6 @@ const handleSubmit = async function(){
   if(res.data.code === '0'){
     console.log(res.data.token)
     userInfo.userInfo = res.data.data
-    console.log('@',userInfo);
     sessionStorage.setItem('token',res.data.token)
     router.push('/')
   }else{
@@ -66,6 +65,9 @@ const handleSubmit = async function(){
 
 <style lang="scss" scoped>
 .login-container {
+  background-image: url("https://photo.tuchong.com/7497903/f/953227196.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   width: 100%;
   height: 100%;
   display: flex;
@@ -76,8 +78,8 @@ const handleSubmit = async function(){
     display: flex;
     height: 400px;
     border-radius: 15px;
-    background-image: url("https://file.moyublog.com/d/file/2021-12-03/d51d4b0634efda302264607796f60238.jpg");
     box-shadow: -2px 2px 13px rgb(150, 149, 149);
+    background-color: rgba(244, 241, 241, 0.726);
   }
   .logo {
     width: 400px;
@@ -92,7 +94,7 @@ const handleSubmit = async function(){
       border-radius: 50% 20%;
     }
     h1 {
-      color: rgba(255, 255, 255);
+      color: rgb(7, 7, 7);
     }
   }
   .login {
@@ -100,7 +102,7 @@ const handleSubmit = async function(){
     text-align: center;
     padding: 50px;
     h1 {
-      color: white;
+      color: black;
       margin: 35px 0;
     }
     input {

@@ -5,7 +5,7 @@ const app = express()
 
 app.use(cors())
 //允许客户端访问静态资源的配置
-app.use(express.static('assets'))
+app.use('/assets', express.static('assets'));
 
 app.use(express.urlencoded())
 app.use(express.json())

@@ -2,7 +2,7 @@ const {
     Sequelize
 } = require('sequelize');
 const initModels = require('../models/init-models')
-const DB = new Sequelize('bs', 'root', '123456', {
+const DB = new Sequelize('village', 'root', '123456', {
     host: 'localhost', //数据库地址,默认本机
     port: '3307',
     dialect: 'mysql',

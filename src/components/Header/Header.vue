@@ -3,13 +3,13 @@
     <!-- 左边图标和你标题 -->
     <h1>
       <el-icon size="25"><HomeFilled /></el-icon>
-      <span class="title">欢迎来到教学文件管理系统</span>
+      <span class="title">欢迎来到“ 咱村那点事 ”系统</span>
     </h1>
     <!-- 右边头像 -->
-    <div class="block" @click="handleAvatar">
+    <div class="block">
       <el-dropdown>
         <span class="el-dropdown-link">
-          <el-avatar class="a" :size="50" :src="avatarPath" />
+          <el-avatar class="a" :size="50" :src="formLabelAlign.avatar" />
           <el-icon class="el-icon--right">
             <arrow-down />
           </el-icon>
@@ -31,10 +31,18 @@
     <!-- 点击个人信息弹出的消息框 -->
     <div class="dialog" v-show="isVisibled">
       <div class="message">
-        <el-card style="width: 500px; height: 600px">
-          <el-avatar class="a avatar" :size="100" :src="avatarPath" />
+        <el-card style="width: 500px; height: 500px">
+          <el-avatar
+            class="a avatar"
+            :size="100"
+            :src="formLabelAlign.avatar"
+          />
           <br />
-          <el-button type="primary" plan class="button"
+          <el-button
+            type="primary"
+            plan
+            class="button"
+            @click.stop="handleAvatar"
             >上传头像</el-button
           >
           <input
@@ -58,20 +66,20 @@
                 <el-radio value="女" size="default">女</el-radio>
               </el-radio-group>
             </el-form-item>
+            <el-form-item label="年龄">
+              <el-input v-model="formLabelAlign.age" />
+            </el-form-item>
             <el-form-item label="账号">
               <el-input v-model="formLabelAlign.loginId" disabled />
             </el-form-item>
-            <el-form-item label="职称">
-              <el-input v-model="formLabelAlign.title" />
-            </el-form-item>
             <el-form-item label="身份">
-              <el-input v-model="formLabelAlign.role" />
-            </el-form-item>
-            <el-form-item label="所授课程">
-              <el-input v-model="formLabelAlign.course" />
-            </el-form-item>
-            <el-form-item label="主攻方向">
-              <el-input v-model="formLabelAlign.main" />
+              <el-select v-model="formLabelAlign.role" placeholder="请选择身份">
+                <el-option label="村民" :value="201"></el-option>
+                <el-option
+                  label="村管理"
+                  :value="202"
+                ></el-option> </el-select
+              >
             </el-form-item>
           </el-form>
           <!-- 底部确定和取消按钮 -->
@@ -86,31 +94,45 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { ArrowDown } from "@element-plus/icons-vue";
-import { useUserStore } from "../../store";
-let userInfo = useUserStore();
-console.log('#',userInfo);
 import { ElMessage, ElMessageBox } from "element-plus";
-import {getLogin} from '../../api/login'
-import { updateAvatar} from "../../api/user";
+import { getUser, modifyUser } from "../../api/user";
+import { updateAvatar } from "../../api/user";
 //绑定上传头像dom按钮
-const avatar1 = ref(null)
-
-const avatarPath = userInfo.  userInfo[0].avatar
+const avatar1 = ref(null);
 
 const a = [];
+const formLabelAlign = reactive({});
+onMounted(async () => {
+  getUserInfo();
+});
+
+//获取用户信息
+async function getUserInfo() {
+  const result = await getUser();
+  formLabelAlign.name = result.data[0].name;
+  formLabelAlign.sex = result.data[0].sex;
+  formLabelAlign.loginId = result.data[0].loginId;
+  formLabelAlign.role = result.data[0].roleId;
+  formLabelAlign.age = result.data[0].age;
+  formLabelAlign.avatar = `http://www.localhost:3000/assets/uploads/${result.data[0].avatar}`;
+}
 
 const isVisibled = ref(false);
-const formLabelAlign = reactive({
-  name: userInfo.userInfo[0].name,
-  sex: userInfo.userInfo[0].sex,
-  loginId: userInfo.userInfo[0].loginId,
-  title: userInfo.userInfo[0].title,
-  role: userInfo.userInfo[0]["roleAlias.roleName"],
-  course: userInfo.userInfo[0].course,
-  main: userInfo.userInfo[0].main,
-});
+
+//更改用户信息
+const handleModify = () => {
+  modifyUser(formLabelAlign).then(()=>{
+    isVisibled.value = false
+    ElMessage({
+      type: "success",
+      message: "更新成功",
+      appendToBody: true,
+    });
+    getUserInfo();
+  });
+};
 
 const layout = () => {
   ElMessageBox.confirm("请问您确定要退出登录么", "Warning", {
@@ -131,19 +153,20 @@ const layout = () => {
     });
 };
 
-// //处理上传头像
-// const handleAvatar1 = ()=>{
-//   avatar1.value.click()
-// }
-// const update = async (event) =>{
-//     await updateAvatar(userInfo[0].id,event.target.files[0])
-//     const result = await getLogin()
-//     userInfo.value = result.data.data[0]
-// }
-// //修改用户信息
-// const handleModify = ()=>{
-
-// }
+//处理上传头像
+const handleAvatar = () => {
+  avatar1.value.click();
+};
+const update = async (event) => {
+  updateAvatar(event.target.files[0]).then(() => {
+    ElMessage({
+      type: "success",
+      message: "上传成功",
+      appendToBody: true,
+    });
+    getUserInfo();
+  });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -170,7 +193,7 @@ const layout = () => {
     }
   }
   .dialog {
-    z-index: 10000;
+    z-index: 100;
     position: absolute;
     left: 0;
     right: 0;
@@ -206,5 +229,8 @@ const layout = () => {
   color: var(--el-color-primary);
   display: flex;
   align-items: center;
+}
+.el-message {
+  z-index: 999999 !important;
 }
 </style>

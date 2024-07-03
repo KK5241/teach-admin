@@ -2,11 +2,11 @@
     <div class="menu-container">
         <div class="logo">
         <img
-          src="https://xiaoban.hebau.edu.cn/__local/A/F1/C3/C5E6614D598EF966D8B1EB13127_B6BAB821_9D78.gif?e=.gif"
+          src="https://zhengxin-pub.cdn.bcebos.com/mark/4b47d105d2c090b70b7617f2c0c26c7b.jpg"
           alt=""
           style="width: 40px;height: 40px;"
         />
-        <h1>教学文件管理系统</h1>
+        <h1>“ 咱村那点事 ”</h1>
       </div>
         <MenuItem ></MenuItem>
     </div>

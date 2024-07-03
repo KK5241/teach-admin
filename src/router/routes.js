@@ -1,11 +1,11 @@
 import Login from '../components/Login/Login.vue'
 import Home from '../components/Home/Home.vue'
+import Circle from '../components/Circle/Circle.vue'
+import Event from '../components/Event/Event.vue'
+import CircleDetail from '../components/Circle/CircleDetail.vue'
 import HomePage from '../components/HomePage/HomePage.vue'
-import Teach from '../components/Teach/Teach.vue'
-import Class from '../components/Class/student.vue'
-import Task from '../components/Task/Task.vue'
-import FileManage from '../components/FileManage/fileManage.vue'
-import User from '../components/User/User.vue'
+import Statistics from '../components/Statistics/Statistics.vue'
+import notice from '../components/notice/notice.vue'
 export const routes = [
     {
         path: '/',
@@ -15,45 +15,48 @@ export const routes = [
         },
         children: [
             {
-                path: 'home',
+                path: 'circle',
+                component: Circle,
+                meta:{
+                    name:'通知公告'
+                }
+            },
+            {
+                path: 'data',
                 component: HomePage,
                 meta:{
-                    name:'详情'
+                    name:'数据大屏'
                 }
             },
             {
-                path:'teach',
-                component:Teach,
+                path: 'event',
+                component: Event,
                 meta:{
-                    name:'课程表'
+                    name:'事件登记'
                 }
             },
             {
-                path:'class',
-                component:Class,
-                meta:{
-                    name:'学生管理'
+                name: "circleDetail",
+                path: '/circle/:id',
+                component:CircleDetail,
+                meta: {
+                    title: '文章详情'
                 }
             },
             {
-                path:'task',
-                component:Task,
-                meta:{
-                    name:'任务情况'
+                name: "statistics",
+                path: '/statistics',
+                component:Statistics,
+                meta: {
+                    title: '事件统计'
                 }
             },
             {
-                path:'fileManage',
-                component:FileManage,
-                meta:{
-                    name:'教学文件管理'
-                },
-            },
-            {
-                path:'user',
-                component:User,
-                meta:{
-                    name:'用户管理'
+                name: "notice",
+                path: '/notice',
+                component:notice,
+                meta: {
+                    title: '通知发布'
                 }
             },
         ]

@@ -2,30 +2,19 @@ const express = require('express')
 const {
     v4: uuidv4
 } = require('uuid');
-const {
-    getUser,
-    deleteUser,
-    updateAvatar,
-    modifyUser1
-} = require('./user')
+
 const crypto = require('crypto');
 const router = express.Router()
 const {
-    login
+    login,
 } = require('./login')
-const {
-    getCourse
-} = require('./course')
+
+const {getUser,updateAvatar,modifyUser} = require('./user')
 const multer = require('multer');
 const path = require('path');
-const {
-    getTasks,
-    uploadFile,
-    deleteFile,
-    deleteTask,
-    modifyTask
-} = require('./task')
-const {getSemester,modifySemester} = require('./semester')
+const { getCircle,getCircleDetail,addCircle,deleteCircle } = require('./circle');
+const {getEvent,addEvent,deleteEvent} = require('./event.js');
+const {getComment,addComment} = require('./comment.js')
 
 //文件上传中间件配置
 const storage = multer.diskStorage({
@@ -52,16 +41,16 @@ const upload = multer({
 });
 
 router.post('/login', login)
-router.post('/getCourse', getCourse)
-router.post('/getTasks', getTasks)
-router.post('/upload', upload.single('file'), uploadFile);
-router.post('/deleteFile', deleteFile)
-router.get('/getUser', getUser)
-router.delete('/deleteUser', deleteUser)
-router.delete('/deleteTask', deleteTask)
-router.post('/updateAvatar', upload.single('file'),  updateAvatar)
-router.post('/modifyTask', modifyTask)
-router.post('/modifyUser1', modifyUser1)
-router.get('/getSemester', getSemester)
-router.post('/modifySemester', modifySemester)
+router.get('/getUser',getUser)
+router.post('/updateAvatar',upload.single('file'),updateAvatar)
+router.post('/modifyUser',modifyUser)
+router.get('/getCircle',getCircle)
+router.get('/getCircleDetail',getCircleDetail)
+router.get('/getEvent',getEvent)
+router.post('/addEvent',upload.single('file'),addEvent)
+router.post('/deleteEvent',deleteEvent)
+router.post('/deleteCircle',deleteCircle)
+router.post('/addComment',addComment)
+router.get('/getCommnet',getComment)
+router.post('/addCircle',upload.single('file'),addCircle)
 module.exports = router

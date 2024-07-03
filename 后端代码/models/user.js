@@ -2,47 +2,40 @@ const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('user', {
     id: {
-      type: DataTypes.STRING(255),
+      autoIncrement: true,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
     name: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING(255),
       allowNull: true
     },
-    loginId: {
-      type: DataTypes.STRING(50),
+    sex: {
+      type: DataTypes.STRING(255),
       allowNull: true
     },
-    loginPwd: {
-      type: DataTypes.STRING(50),
-      allowNull: true
-    },
-    role: {
-      type: DataTypes.STRING(50),
+    roleId: {
+      type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'role',
         key: 'roleId'
       }
     },
-    sex: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    course: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    main: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    title: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
     avatar: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    age: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    loginId: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    loginPwd: {
       type: DataTypes.STRING(255),
       allowNull: true
     }
@@ -60,10 +53,25 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
       {
-        name: "ab",
+        name: "roleId",
         using: "BTREE",
         fields: [
-          { name: "role" },
+          { name: "roleId" },
+        ]
+      },
+      {
+        name: "id",
+        using: "BTREE",
+        fields: [
+          { name: "id" },
+          { name: "loginId" },
+        ]
+      },
+      {
+        name: "loginId",
+        using: "BTREE",
+        fields: [
+          { name: "loginId" },
         ]
       },
     ]

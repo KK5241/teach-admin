@@ -5,6 +5,8 @@ import './assets/global.less'
 import router from './router/router.js'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import * as echarts from 'echarts';
+
 
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -20,7 +22,6 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 
 import App from './App.vue'
-
 library.add(fas)
 const app = createApp(App)
 const pinia = createPinia()

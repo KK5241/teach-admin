@@ -5,11 +5,11 @@
         <el-aside width="250px" style="height: 100vh;">
           <slot name="menu"></slot>
         </el-aside>
-        <el-container>
+        <el-container >
           <el-header>
             <slot name="header"></slot>
           </el-header>
-          <el-main>
+          <el-main style="padding-bottom: 0;height: 300px;;">
             <slot name="main"></slot>
           </el-main>
         </el-container>
@@ -23,7 +23,8 @@
 
 <style lang="scss" scoped>
 .layout-container {
-  .left {
+  box-sizing: border-box;
+  .left { 
     width: 200px;
     height: 100vh;
   }

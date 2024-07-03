@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true
     },
     roleId: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'role',
@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     menuId: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'menu',

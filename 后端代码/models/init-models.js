@@ -1,39 +1,44 @@
 var DataTypes = require("sequelize").DataTypes;
-var _course = require("./course");
+var _circle = require("./circle");
+var _comment = require("./comment");
+var _event = require("./event");
+var _eventtype = require("./eventtype");
 var _menu = require("./menu");
 var _relative = require("./relative");
 var _role = require("./role");
-var _semester = require("./semester");
-var _task = require("./task");
 var _user = require("./user");
 
 function initModels(sequelize) {
-  var course = _course(sequelize, DataTypes);
+  var circle = _circle(sequelize, DataTypes);
+  var comment = _comment(sequelize, DataTypes);
+  var event = _event(sequelize, DataTypes);
+  var eventtype = _eventtype(sequelize, DataTypes);
   var menu = _menu(sequelize, DataTypes);
   var relative = _relative(sequelize, DataTypes);
   var role = _role(sequelize, DataTypes);
-  var semester = _semester(sequelize, DataTypes);
-  var task = _task(sequelize, DataTypes);
   var user = _user(sequelize, DataTypes);
 
-  task.belongsTo(course, { as: "course", foreignKey: "courseId"});
-  course.hasMany(task, { as: "tasks", foreignKey: "courseId"});
+  comment.belongsTo(circle, { as: "circle", foreignKey: "circleId"});
+  circle.hasMany(comment, { as: "comments", foreignKey: "circleId"});
+  event.belongsTo(eventtype, { as: "type_eventtype", foreignKey: "type"});
+  eventtype.hasMany(event, { as: "events", foreignKey: "type"});
   relative.belongsTo(menu, { as: "menu", foreignKey: "menuId"});
   menu.hasMany(relative, { as: "relatives", foreignKey: "menuId"});
   relative.belongsTo(role, { as: "role", foreignKey: "roleId"});
   role.hasMany(relative, { as: "relatives", foreignKey: "roleId"});
-  user.belongsTo(role, { as: "role_role", foreignKey: "role"});
-  role.hasMany(user, { as: "users", foreignKey: "role"});
-  course.belongsTo(user, { as: "teacher", foreignKey: "teacherId"});
-  user.hasMany(course, { as: "courses", foreignKey: "teacherId"});
+  user.belongsTo(role, { as: "role", foreignKey: "roleId"});
+  role.hasMany(user, { as: "users", foreignKey: "roleId"});
+  comment.belongsTo(user, { as: "user", foreignKey: "userId"});
+  user.hasMany(comment, { as: "comments", foreignKey: "userId"});
 
   return {
-    course,
+    circle,
+    comment,
+    event,
+    eventtype,
     menu,
     relative,
     role,
-    semester,
-    task,
     user,
   };
 }

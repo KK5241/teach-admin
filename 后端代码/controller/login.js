@@ -8,7 +8,7 @@ const {
 const jwt = require('jsonwebtoken')
 const secretKey = 'jwtkey123'
 user.belongsTo(role, {
-    foreignKey: 'role',
+    foreignKey: 'roleId',
     as: 'roleAlias'
 });
 role.belongsToMany(menu, {
@@ -20,6 +20,7 @@ menu.belongsToMany(role, {
     foreignKey: 'menuId'
 });
 async function login(req, res) {
+    console.log("1")
     const {
         loginId,
         loginPwd,
@@ -50,7 +51,7 @@ async function login(req, res) {
                 role: role
             },
             secretKey, {
-                expiresIn: '1m'
+                expiresIn: '10h'
             }
         )
         res.json({
